@@ -8,6 +8,60 @@
   @vite('resources/css/app.css')
   <title>Forward Auto</title>
 </head>
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9fbfa4df-7869-44a3-ae8e-0ebc49545ea9" type="text/javascript"></script>
+<script>
+    ymaps.ready(init);
+
+    function init() {
+        var myMap = new ymaps.Map('map', {
+            center: [52.753994, 104.622093],
+            zoom: 9, 
+            controls: []
+        });
+
+        // Данные для геокодирования
+        var address = "Иркутск Ленина 5А";
+        var prod_name = "Название продукта"; // Пример данных
+        var image_url = "https://example.com/image.jpg"; // Пример данных
+        var advert_id = 1; // Пример данных
+
+        // URL изображения по умолчанию
+        var defaultImageUrl = "https://example.com/default-image.jpg";
+
+        // Функция для геокодирования и добавления метки на карту
+        function geocodeAndAddToMap(address, prod_name, image_url, advert_id) {
+            ymaps.geocode(address, {
+                results: 1
+            }).then(function (res) {
+                var firstGeoObject = res.geoObjects.get(0),
+                    coords = firstGeoObject.geometry.getCoordinates(),
+                    bounds = firstGeoObject.properties.get('boundedBy');
+
+                // Проверяем, существует ли URL изображения
+                var imageUrl = image_url ? image_url : defaultImageUrl;
+
+                // Создаем метку с пользовательским контентом
+                var placemark = new ymaps.Placemark(coords, {
+                    
+                    hintContent: prod_name // Пользовательский контент в подсказке
+                }, {
+                    preset: 'islands#darkBlueDotIconWithCaption'
+                });
+
+                myMap.geoObjects.add(placemark);
+
+                // Центрируем карту на последней добавленной метке
+                myMap.setCenter(coords, 15, {
+                    checkZoomRange: true
+                });
+            });
+        }
+
+        // Выполняем геокодирование и добавление метки для адреса
+        geocodeAndAddToMap(address, prod_name, image_url, advert_id);
+    }
+</script>
 <body>
 
 <div class="min-h-screen bg-[#1C1B21] text-white">
@@ -55,36 +109,6 @@
     </div>
    </header>
 
-   <section class="relative z-10 py-12 bg-gradient-to-t to-transparent mb-10">
-    <div class="container mx-auto px-6">
-     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-[#3C3C3C] rounded-lg overflow-hidden">
-       <img alt="Economy segment car" class="w-full h-48 object-cover" height="300" src="{{asset('images/eco.png')}}" width="400"/>
-       <div class="p-4 text-center">
-        <h3 class="text-xl font-bold">
-         Эконом сегмент
-        </h3>
-       </div>
-      </div>
-      <div class="bg-[#3C3C3C] rounded-lg overflow-hidden">
-       <img alt="Premium segment car" class="w-full h-48 object-cover" height="300" src="{{asset('images/premium.png')}}" width="400"/>
-       <div class="p-4 text-center">
-        <h3 class="text-xl font-bold">
-         Премиум сегмент
-        </h3>
-       </div>
-      </div>
-      <div class="bg-[#3C3C3C] rounded-lg overflow-hidden">
-       <img alt="Business segment car" class="w-full h-48 object-cover" height="300" src="{{asset('images/buisness.png')}}" width="400"/>
-       <div class="p-4 text-center">
-        <h3 class="text-xl font-bold">
-         Бизнес сегмент
-        </h3>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section>
 
    <div class="flex flex-col items-center bg-[#1C1B21] mb-10">
 
@@ -96,6 +120,7 @@
   
     <div class="flex items-center space-x-8 bg-[#1C1B21]">
       <div class="relative">
+        <div id="map" class="w-full h-96 mt-4 mb-12"></div>
        <img alt="Map showing the city of Irkutsk" class="rounded-full " src="{{asset('images/map.png')}}" />
       </div>
       <div>
