@@ -8,6 +8,11 @@
   @vite('resources/css/app.css')
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <title>Forward Auto</title>
+  <style>
+    .carousel-item-centered {
+    margin-right: 0% !important;
+}
+  </style>
 </head>
 <body class="min-h-screen bg-gray-900 text-white">
     <x-header/>
@@ -16,17 +21,16 @@
             {{ $cars->mark }} {{ $cars->model }}
         </div>
 
-        <!-- Carousel Section -->
         <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
+            <div class="carousel-inner flex items-center justify-center">
                 @foreach ($cars->images as $key => $image)
-                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $cars->mark }} {{ $cars->model }}" class="d-block w-100 h-48 object-cover rounded-lg">
+                    <div class="carousel-item w-full {{ $key == 0 ? 'active' : '' }} flex items-center justify-center carousel-item-centered">
+                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $cars->mark }} {{ $cars->model }}" class="d-block w-[500px] object-cover rounded-lg mx-auto">
                     </div>
                 @endforeach
                 @if ($cars->images->isEmpty())
-                    <div class="carousel-item active">
-                        <img src="{{ asset('images/car.jpg') }}" alt="{{ $cars->mark }} {{ $cars->model }}" class="d-block w-100 h-48 object-cover rounded-lg">
+                    <div class="carousel-item active w-full flex items-center justify-center carousel-item-centered">
+                        <img src="{{ asset('images/car.jpg') }}" alt="{{ $cars->mark }} {{ $cars->model }}" class="d-block w-100 h-48 object-cover rounded-lg mx-auto">
                     </div>
                 @endif
             </div>

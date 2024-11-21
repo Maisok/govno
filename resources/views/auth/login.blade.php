@@ -17,18 +17,21 @@
         @csrf
       <div class="relative">
         <input type="text" placeholder="Элекронная почта" id="email" name="email" type="email"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white
+                rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
       </div>
       
 
       <div class="relative">
         <input type="password" placeholder="Пароль" id="password" type="password" name="password"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white
+                placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
       </div>
 
 
       <button type="submit"
-              class="w-full py-3 bg-black text-purple-300 font-bold text-lg rounded-[20px_0_20px_0] hover:bg-purple-800 hover:text-white transition">
+              class="w-full py-3 bg-black text-purple-300 font-bold text-lg rounded-[20px_0_20px_0]
+               hover:bg-purple-800 hover:text-white transition">
         ВОЙТИ
       </button>
     </form>

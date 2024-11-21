@@ -17,9 +17,6 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\SalesExportController;
 
 
-
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/catalog', [catalogController::class, 'index'])->name('catalog');
 Route::get('/cars/{model}', [CardController::class, 'show'])->name('cars.show');

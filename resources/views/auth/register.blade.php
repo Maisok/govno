@@ -41,7 +41,9 @@
         @csrf
       <div class="relative">
         <input type="text" required autofocus id="name" name="name" placeholder="Имя пользователя"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+               class="w-full px-4 py-3 bg-transparent border-2 
+               border-white/50 text-white placeholder-white 
+               rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
       </div>
 
       @error('name')
@@ -50,7 +52,9 @@
 
       <div class="relative">
         <input type="email" id="email" name="email" placeholder="Элекронная почта"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+               class="w-full px-4 py-3 bg-transparent border-2 
+               border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] 
+               focus:outline-none focus:border-purple-400">
       </div>
 
       @error('email')
@@ -60,7 +64,9 @@
 
       <div class="relative">
         <input type="password" id="password" name="password" placeholder="Пароль"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
+               text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
+               focus:border-purple-400">
       </div>
 
       @error('password')
@@ -68,8 +74,11 @@
   @enderror
 
   <div class="relative">
-    <input id="password_confirmation" type="password" placeholder="Подтвердите пароль" name="password_confirmation" required
-    class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+    <input id="password_confirmation" type="password" placeholder="Подтвердите пароль" 
+    name="password_confirmation" required
+    class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
+    text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
+    focus:border-purple-400">
 </div>
 
 

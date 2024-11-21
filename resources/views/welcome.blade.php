@@ -22,7 +22,7 @@
 
         // Данные для геокодирования
         var address = "Иркутск Ленина 5А";
-        var prod_name = "Название продукта"; // Пример данных
+        var prod_name = ""; // Пример данных
         var image_url = "https://example.com/image.jpg"; // Пример данных
         var advert_id = 1; // Пример данных
 
@@ -46,7 +46,7 @@
                     
                     hintContent: prod_name // Пользовательский контент в подсказке
                 }, {
-                    preset: 'islands#darkBlueDotIconWithCaption'
+                   
                 });
 
                 myMap.geoObjects.add(placemark);
@@ -120,8 +120,7 @@
   
     <div class="flex items-center space-x-8 bg-[#1C1B21]">
       <div class="relative">
-        <div id="map" class="w-full h-96 mt-4 mb-12"></div>
-       <img alt="Map showing the city of Irkutsk" class="rounded-full " src="{{asset('images/map.png')}}" />
+        <div id="map" class="w-[500px] h-[500px] mt-4 mb-12"></div>
       </div>
       <div>
        <h1 class="text-2xl font-bold mb-4">
@@ -181,17 +180,32 @@
   </section>
   <div class="w-full flex justify-center">
     <div class="grid grid-cols-4 gap-4 p-4 mb-10 w-3/5">
-      @foreach ($randomCars as $car)
-          <div class="col-span-1 row-span-2">
-              <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
-          </div>
-      @endforeach
-      <div class="col-span-2 flex items-center justify-center bg-gray-700 rounded-lg p-4">
-        <span class="text-white text-xl font-semibold">
-         Фото наших авто
-        </span>
-       </div>
-   </div>
+        @foreach ($randomCars as $index => $car)
+            @if ($index == 0)
+                <div class="col-span-1 row-span-2">
+                    <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
+                </div>
+            @elseif ($index == 1)
+                <div class="col-span-1 row-span-1">
+                    <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
+                </div>
+            @elseif ($index == 2)
+                <div class="col-span-1 row-span-1">
+                    <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
+                </div>
+            @elseif ($index == 3)
+                <div class="col-span-1 row-span-2">
+                    <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
+                </div>
+            @endif
+        @endforeach
+        <div class="col-span-2 row-span-1 flex items-center justify-center bg-gray-700 rounded-lg p-4">
+            <span class="text-white text-xl font-semibold">
+                Фото наших авто
+            </span>
+        </div>
+    </div>
+</div>
      
   </div>
 
