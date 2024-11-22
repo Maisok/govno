@@ -123,5 +123,35 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const phoneInputs = document.querySelectorAll('input[name="phone_number"], input[name="phone_number_purchase"]');
+    
+            phoneInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    let phoneNumber = this.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+                    if (phoneNumber.length > 0) {
+                        phoneNumber = '8 ' + phoneNumber.substring(1); // Добавляем "8 " в начале
+                    }
+                    if (phoneNumber.length > 2) {
+                        phoneNumber = phoneNumber.substring(0, 2) + ' ' + phoneNumber.substring(2);
+                    }
+                    if (phoneNumber.length > 6) {
+                        phoneNumber = phoneNumber.substring(0, 6) + ' ' + phoneNumber.substring(6);
+                    }
+                    if (phoneNumber.length > 10) {
+                        phoneNumber = phoneNumber.substring(0, 10) + ' ' + phoneNumber.substring(10);
+                    }
+                    if (phoneNumber.length > 13) {
+                        phoneNumber = phoneNumber.substring(0, 13) + ' ' + phoneNumber.substring(13);
+                    }
+                    if (phoneNumber.length > 13) {
+                        phoneNumber = phoneNumber.substring(0, 16);
+                    }
+                    this.value = phoneNumber;
+                });
+            });
+        });
+    </script>
 </body>
 </html>
