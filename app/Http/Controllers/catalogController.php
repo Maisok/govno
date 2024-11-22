@@ -11,26 +11,33 @@ class catalogController extends Controller
     {
         $query = Cars::query();
 
-        // Применение фильтров
-        if ($request->has('search')) {
-            $query->where('mark', 'like', '%' . $request->search . '%')
-                  ->orWhere('model', 'like', '%' . $request->search . '%');
-        }
+        // Проверка, есть ли хотя бы один параметр для фильтрации
+        $hasFilters = $request->hasAny(['search', 'year_from', 'year_to', 'mileage_from', 'mileage_to']);
 
-        if ($request->has('year_from')) {
-            $query->where('year', '>=', $request->year_from);
-        }
+        if ($hasFilters) {
+            // Применение фильтров только по тем параметрам, которые заполнены
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('mark', 'like', '%' . $request->search . '%')
+                      ->orWhere('model', 'like', '%' . $request->search . '%');
+                });
+            }
 
-        if ($request->has('year_to')) {
-            $query->where('year', '<=', $request->year_to);
-        }
+            if ($request->filled('year_from')) {
+                $query->where('year', '>=', $request->year_from);
+            }
 
-        if ($request->has('mileage_from')) {
-            $query->where('mileage', '>=', $request->mileage_from);
-        }
+            if ($request->filled('year_to')) {
+                $query->where('year', '<=', $request->year_to);
+            }
 
-        if ($request->has('mileage_to')) {
-            $query->where('mileage', '<=', $request->mileage_to);
+            if ($request->filled('mileage_from')) {
+                $query->where('mileage', '>=', $request->mileage_from);
+            }
+
+            if ($request->filled('mileage_to')) {
+                $query->where('mileage', '<=', $request->mileage_to);
+            }
         }
 
         // Фильтрация по наличию картинок
