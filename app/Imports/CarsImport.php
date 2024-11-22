@@ -25,6 +25,7 @@ class CarsImport implements ToModel, WithHeadingRow
             'transmission' => $row['transmission'] ?? null,
             'drive_type' => $row['drive_type'] ?? null,
             'delivery_location' => $row['delivery_location'] ?? null,
+            'sold' => $row['sold'] ?? null,
         ]);
     }
 }
