@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 use App\Models\Cars;
 use App\Models\SuccessSale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends Controller
 {
     public function index(Request $request)
+    
     {
+
+        if (!Auth::user()->isManager()) {
+            return redirect('/');
+        }
         $query = Cars::query();
 
         // Поиск по марке и модели
@@ -27,6 +33,10 @@ class ManagerController extends Controller
 
     public function updateAvailability(Request $request, $id)
     {
+
+        if (!Auth::user()->isManager()) {
+            return redirect('/');
+        }
         $car = Cars::findOrFail($id);
         $car->availability = $request->input('availability') == 'available' ? 1 : 0;
 
@@ -42,6 +52,10 @@ class ManagerController extends Controller
 
     public function markAsSold(Request $request, $id)
     {
+
+        if (!Auth::user()->isManager()) {
+            return redirect('/');
+        }
         $car = Cars::findOrFail($id);
         $car->sold = true;
         $car->availability = 0; // Устанавливаем статус availability в 0, так как автомобиль продан

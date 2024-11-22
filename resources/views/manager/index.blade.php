@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
   @vite('resources/css/app.css')
   <title>Forward Auto - Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     <x-header class="w-full"/>
@@ -84,5 +85,31 @@
         </div>
     </div>
     <x-footer class="w-full"/>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const soldButtons = document.querySelectorAll('form[action^="{{ route('manager.markAsSold', '') }}"] button[type="submit"]');
+
+        soldButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Вы уверены?',
+                    text: "Вы хотите пометить этот автомобиль как проданный?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Да, продан!',
+                    cancelButtonText: 'Отмена'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.closest('form').submit();
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

@@ -1,68 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
   @vite('resources/css/app.css')
   <title>Forward Auto</title>
 </head>
-<body>
-
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-[#2c264d] min-h-screen">
     <x-header/>
-    <div class="container mx-auto p-8">
-        <h2 class="text-2xl font-bold mb-6">Edit Profile</h2>
-
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('update') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            @csrf
-
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" required autofocus
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('name')
-                    <span class="text-red-500 text-xs italic">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('email')
-                    <span class="text-red-500 text-xs italic">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-                <input id="password" type="password" name="password"
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                @error('password')
-                    <span class="text-red-500 text-xs italic">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="mb-6">
-                <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation"
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Update Profile
+    <div class="min-h-screen flex flex-col items-center justify-center">
+        <div class="w-full max-w-sm mx-auto px-6">
+            <h1 class="text-center text-3xl font-bold text-white mb-8">Редактировать профиль</h1>
+        
+            @if (session('success'))
+              <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+                  {{ session('success') }}
+              </div>
+            @endif
+        
+            <form method="POST" action="{{ route('update') }}" class="space-y-4">
+                @csrf
+        
+                <!-- Поле для имени -->
+                <div class="relative">
+                    <input type="text" required autofocus id="name" name="name" placeholder="Имя пользователя" value="{{ old('name', $user->name) }}"
+                           class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+                    @error('name')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+        
+                <!-- Поле для email -->
+                <div class="relative">
+                    <input type="email" id="email" name="email" placeholder="Электронная почта" value="{{ old('email', $user->email) }}"
+                           class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+                    @error('email')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+        
+                <!-- Поле для пароля -->
+                <div class="relative">
+                    <input type="password" id="password" name="password" placeholder="Новый пароль"
+                           class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+                    @error('password')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+        
+                <!-- Поле для подтверждения пароля -->
+                <div class="relative">
+                    <input id="password_confirmation" type="password" placeholder="Подтвердите новый пароль" name="password_confirmation"
+                           class="w-full px-4 py-3 bg-transparent border-2 border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+                </div>
+        
+                <!-- Кнопка обновления профиля -->
+                <button type="submit"
+                        class="w-full py-3 bg-black text-purple-300 font-bold text-lg rounded-[20px_0_20px_0] hover:bg-purple-800 hover:text-white transition">
+                    Обновить профиль
                 </button>
+            </form>
+        
+            <!-- Логотип -->
+            <div class="mt-10 flex justify-center">
+              <a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="Logo" class="w-20 h-20"></a>
             </div>
-        </form>
+          </div>
     </div>
+ 
 </body>
 </html>

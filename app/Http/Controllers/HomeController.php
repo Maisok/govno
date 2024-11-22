@@ -8,8 +8,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $popularCars = Cars::inRandomOrder()->limit(4)->get();
-        $randomCars = Cars::inRandomOrder()->limit(4)->get();
+        $popularCars = Cars::whereHas('images')->inRandomOrder()->limit(4)->get();
+
+        // Получаем случайные автомобили с картинками
+        $randomCars = Cars::whereHas('images')->inRandomOrder()->limit(4)->get();
+
         return view('welcome', compact('popularCars', 'randomCars'));
     }
 }

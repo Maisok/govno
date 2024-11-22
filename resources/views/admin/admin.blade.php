@@ -24,8 +24,20 @@
             @csrf
             <div class="flex items-center space-x-4">
                 <input type="text" name="name" placeholder="Name" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <input type="email" name="email" placeholder="Email" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <input type="password" name="password" placeholder="Password" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('password')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <button type="submit" class="bg-blue-500 text-white p-2 rounded-md">Add Manager</button>
             </div>
         </form>
@@ -60,7 +72,7 @@
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                                    <button type="button" onclick="confirmDelete(this)" class="text-red-500 hover:underline">Delete</button>
                                 </form>
                             @endif
                         </td>
@@ -69,5 +81,13 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        function confirmDelete(button) {
+            if (confirm('Вы уверены?')) {
+                button.closest('form').submit();
+            }
+        }
+    </script>
 </body>
 </html>

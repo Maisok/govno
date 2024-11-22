@@ -39,59 +39,62 @@
     <h1 class="text-center text-3xl font-bold text-white mb-8">Регистрация</h1>
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
-      <div class="relative">
-        <input type="text" required autofocus id="name" name="name" placeholder="Имя пользователя"
-               class="w-full px-4 py-3 bg-transparent border-2 
-               border-white/50 text-white placeholder-white 
-               rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
-      </div>
 
-      @error('name')
-      <span>{{ $message }}</span>
-  @enderror
+        <!-- Поле для имени -->
+        <div class="relative">
+            <input type="text" required autofocus id="name" name="name" placeholder="Имя пользователя"
+                   class="w-full px-4 py-3 bg-transparent border-2 
+                   border-white/50 text-white placeholder-white 
+                   rounded-[20px_0_20px_0] focus:outline-none focus:border-purple-400">
+            @error('name')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
 
-      <div class="relative">
-        <input type="email" id="email" name="email" placeholder="Элекронная почта"
-               class="w-full px-4 py-3 bg-transparent border-2 
-               border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] 
-               focus:outline-none focus:border-purple-400">
-      </div>
+        <!-- Поле для email -->
+        <div class="relative">
+            <input type="email" id="email" name="email" placeholder="Электронная почта"
+                   class="w-full px-4 py-3 bg-transparent border-2 
+                   border-white/50 text-white placeholder-white rounded-[20px_0_20px_0] 
+                   focus:outline-none focus:border-purple-400">
+            @error('email')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
 
-      @error('email')
-      <span>{{ $message }}</span>
-  @enderror
+        <!-- Поле для пароля -->
+        <div class="relative">
+            <input type="password" id="password" name="password" placeholder="Пароль"
+                   class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
+                   text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
+                   focus:border-purple-400">
+            @error('password')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
 
+        <!-- Поле для подтверждения пароля -->
+        <div class="relative">
+            <input id="password_confirmation" type="password" placeholder="Подтвердите пароль" 
+            name="password_confirmation" required
+            class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
+            text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
+            focus:border-purple-400">
+        </div>
 
-      <div class="relative">
-        <input type="password" id="password" name="password" placeholder="Пароль"
-               class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
-               text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
-               focus:border-purple-400">
-      </div>
-
-      @error('password')
-      <span>{{ $message }}</span>
-  @enderror
-
-  <div class="relative">
-    <input id="password_confirmation" type="password" placeholder="Подтвердите пароль" 
-    name="password_confirmation" required
-    class="w-full px-4 py-3 bg-transparent border-2 border-white/50 
-    text-white placeholder-white rounded-[20px_0_20px_0] focus:outline-none 
-    focus:border-purple-400">
-</div>
-
-
-
-      <button type="submit"
-              class="w-full py-3 bg-black text-purple-300 font-bold text-lg rounded-[20px_0_20px_0] hover:bg-purple-800 hover:text-white transition">
-        Зарегистрироваться
-      </button>
+        <!-- Кнопка регистрации -->
+        <button type="submit"
+                class="w-full py-3 bg-black text-purple-300 font-bold text-lg rounded-[20px_0_20px_0] hover:bg-purple-800 hover:text-white transition">
+            Зарегистрироваться
+        </button>
     </form>
+
+    <!-- Ссылка на вход -->
     <p class="mt-4 text-center text-white/70 text-sm hover:text-purple-400 cursor-pointer">
       <a href="{{route('login')}}">Есть аккаунт?</a>
     </p>
 
+    <!-- Логотип -->
     <div class="mt-10 flex justify-center">
       <a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="Logo" class="w-20 h-20"></a>
     </div>

@@ -21,7 +21,7 @@ class Cars extends Model
         'transmission',
         'drive_type',
         'delivery_location',
-        'sold', // Добавьте это поле
+        'sold', 
     ];
 
     public function images()

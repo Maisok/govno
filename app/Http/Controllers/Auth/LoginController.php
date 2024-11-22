@@ -16,19 +16,19 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email:rfc,dns',
+            'password' => 'required|min:8',
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+    
             return redirect()->intended('/');
         }
-
+    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ]);
+        ])->withInput($request->except('password'));
     }
 
     public function logout(Request $request)

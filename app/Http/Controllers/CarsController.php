@@ -6,11 +6,16 @@ use App\Models\Cars;
 use App\Models\CarImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class CarsController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $query = Cars::with('images');
 
         // Поиск по названию авто
@@ -32,22 +37,26 @@ class CarsController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $request->validate([
-            'mark' => 'required|string',
-            'model' => 'required|string',
-            'year' => 'required|integer',
-            'vin' => 'required|string|unique:cars',
-            'color' => 'required|string',
-            'mileage' => 'required|integer',
-            'price' => 'required|numeric',
+            'mark' => 'required|string|max:30',
+            'model' => 'required|string|max:30',
+            'year' => 'required|integer|max:9999',
+            'vin' => 'required|string|max:30',
+            'color' => 'required|string|max:30',
+            'mileage' => 'required|integer|max:999999',
+            'price' => 'required|numeric|max:999999999.99',
             'availability' => 'required|boolean',
-            'body_type' => 'required|string',
-            'equipment' => 'required|string',
-            'engine' => 'required|string',
-            'tax' => 'required|numeric',
-            'transmission' => 'required|string',
-            'drive_type' => 'required|string',
-            'delivery_location' => 'nullable|string',
+            'body_type' => 'required|string|max:30',
+            'equipment' => 'required|integer|max:9999',
+            'engine' => 'required|string|max:30',
+            'tax' => 'required|numeric|max:999999999.99',
+            'transmission' => 'required|string|max:30',
+            'drive_type' => 'required|string|max:30',
+            'delivery_location' => 'nullable|string|max:30',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -65,28 +74,35 @@ class CarsController extends Controller
 
     public function edit($id)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $car = Cars::with('images')->findOrFail($id);
         return view('cars.edit', compact('car'));
     }
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
         $request->validate([
-            'mark' => 'required|string',
-            'model' => 'required|string',
-            'year' => 'required|integer',
-            'vin' => 'required|string|unique:cars,vin,' . $id,
-            'color' => 'required|string',
-            'mileage' => 'required|integer',
-            'price' => 'required|numeric',
+            'mark' => 'required|string|max:30',
+            'model' => 'required|string|max:30',
+            'year' => 'required|integer|max:9999',
+            'vin' => 'required|string|max:30',
+            'color' => 'required|string|max:30',
+            'mileage' => 'required|integer|max:999999',
+            'price' => 'required|numeric|max:999999999.99',
             'availability' => 'required|boolean',
-            'body_type' => 'required|string',
-            'equipment' => 'required|string',
-            'engine' => 'required|string',
-            'tax' => 'required|numeric',
-            'transmission' => 'required|string',
-            'drive_type' => 'required|string',
-            'delivery_location' => 'nullable|string',
+            'body_type' => 'required|string|max:30',
+            'equipment' => 'required|integer|max:9999',
+            'engine' => 'required|string|max:30',
+            'tax' => 'required|numeric|max:999999999.99',
+            'transmission' => 'required|string|max:30',
+            'drive_type' => 'required|string|max:30',
+            'delivery_location' => 'nullable|string|max:30',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -105,6 +121,9 @@ class CarsController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
         $car = Cars::findOrFail($id);
         $car->delete();
 
@@ -113,6 +132,9 @@ class CarsController extends Controller
 
     public function deleteImage($carId, $imageId)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
         $image = CarImage::findOrFail($imageId);
         Storage::disk('public')->delete($image->image_path);
         $image->delete();

@@ -19,8 +19,20 @@
             @method('PUT')
             <div class="flex items-center space-x-4">
                 <input type="text" name="name" value="{{ $user->name }}" placeholder="Name" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <input type="email" name="email" value="{{ $user->email }}" placeholder="Email" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <input type="password" name="password" placeholder="New Password (leave blank to keep current)" class="border border-gray-300 p-2 rounded-md w-1/3">
+                @error('password')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
                 <button type="submit" class="bg-blue-500 text-white p-2 rounded-md">Update Manager</button>
             </div>
         </form>

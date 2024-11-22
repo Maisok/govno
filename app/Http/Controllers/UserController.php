@@ -45,14 +45,13 @@ class UserController
         $user = Auth::user();
         return view('edit', compact('user'));
     }
-
     public function update(Request $request)
     {
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
@@ -69,6 +68,6 @@ class UserController
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        return redirect()->route('edit')->with('success', 'Profile updated successfully.');
+        return redirect()->route('edit')->with('success', 'Профиль успешно обновлен.');
     }
 }

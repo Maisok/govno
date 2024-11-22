@@ -29,11 +29,18 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-    Route::post('/admin/users', [AdminController::class, 'store'])->name('users.store');
-    Route::get('/admin/users/{user}/edit', [AdminController::class, 'edit'])->name('users.edit');
-    Route::put('/admin/users/{user}', [AdminController::class, 'update'])->name('users.update');
-    Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
+    Route::post('/users', [AdminController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
+    Route::post('/cars/import', [CarImportController::class, 'import'])->name('cars.import');
+    Route::get('/cars/import', [CarImportController::class, 'index'])->name('cars.import.form');
+    Route::get('/cars/export', [CarsExportController::class, 'export'])->name('cars.export');
+});
 
     Route::get('/account', [UserController::class, 'show'])->name('account');
     Route::get('/user/edit', [UserController::class, 'showEditForm'])->name('edit');    
@@ -52,9 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase', [BookingController::class, 'purchase'])->name('purchase');
     Route::post('/purchases/{purchase}/cancel', [BookingController::class, 'cancelPurchase'])->name('purchases.cancel');
 
-    Route::post('/admin/cars/import', [CarImportController::class, 'import'])->name('cars.import');
-    Route::view("/admin/cars/import", 'cars.import')->name('cars.import.form');
-    Route::get('/admin/cars/export', [CarsExportController::class, 'export'])->name('cars.export');
     
     Route::get('/manager', [ManagerController::class, 'index'])->name('manager.index');
     Route::post('/manager/update-availability/{id}', [ManagerController::class, 'updateAvailability'])->name('manager.updateAvailability');

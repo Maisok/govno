@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $search = $request->input('search');
 
         if ($search) {
@@ -23,10 +28,14 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'name' => 'required|string|max:30',
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users',
+            'password' => 'required|string|min:8',
         ]);
 
         User::create([
@@ -41,15 +50,23 @@ class AdminController extends Controller
 
     public function edit(User $user)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         return view('admin.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:6',
+            'name' => 'required|string|max:30',
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
         ]);
 
         $user->update([
@@ -63,6 +80,10 @@ class AdminController extends Controller
 
     public function destroy(User $user)
     {
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/');
+        }
+
         $user->delete();
         return redirect()->route('admin')->with('success', 'Manager deleted successfully.');
     }

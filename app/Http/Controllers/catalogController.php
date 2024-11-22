@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cars;
 use Illuminate\Http\Request;
+use App\Models\Cars;
 
 class catalogController extends Controller
 {
@@ -11,36 +11,30 @@ class catalogController extends Controller
     {
         $query = Cars::query();
 
-        // Поиск по марке и модели
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('mark', 'like', '%' . $search . '%')
-                  ->orWhere('model', 'like', '%' . $search . '%');
-            });
+        // Применение фильтров
+        if ($request->has('search')) {
+            $query->where('mark', 'like', '%' . $request->search . '%')
+                  ->orWhere('model', 'like', '%' . $request->search . '%');
         }
 
-        // Фильтрация по году
-        if ($request->filled('year_from')) {
-            $query->where('year', '>=', $request->input('year_from'));
-        }
-        if ($request->filled('year_to')) {
-            $query->where('year', '<=', $request->input('year_to'));
+        if ($request->has('year_from')) {
+            $query->where('year', '>=', $request->year_from);
         }
 
-        // Фильтрация по пробегу
-        if ($request->filled('mileage_from')) {
-            $query->where('mileage', '>=', $request->input('mileage_from'));
-        }
-        if ($request->filled('mileage_to')) {
-            $query->where('mileage', '<=', $request->input('mileage_to'));
+        if ($request->has('year_to')) {
+            $query->where('year', '<=', $request->year_to);
         }
 
-        // Исключаем автомобили, которые проданы или недоступны
-        $query->where('sold', false)
-              ->where('availability', 1);
+        if ($request->has('mileage_from')) {
+            $query->where('mileage', '>=', $request->mileage_from);
+        }
 
-        $cars = $query->get();
+        if ($request->has('mileage_to')) {
+            $query->where('mileage', '<=', $request->mileage_to);
+        }
+
+        // Фильтрация по наличию картинок
+        $cars = $query->whereHas('images')->get();
 
         return view('catalog', compact('cars'));
     }
