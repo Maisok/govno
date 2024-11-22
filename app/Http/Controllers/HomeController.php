@@ -13,6 +13,8 @@ class HomeController extends Controller
         // Получаем случайные автомобили с картинками
         $randomCars = Cars::whereHas('images')->inRandomOrder()->limit(4)->get();
 
-        return view('welcome', compact('popularCars', 'randomCars'));
+        $additionalCars = Cars::whereHas('images')->inRandomOrder()->limit(4)->get();
+
+    return view('welcome', compact('popularCars', 'randomCars', 'additionalCars'));
     }
 }

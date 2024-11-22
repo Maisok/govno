@@ -65,50 +65,55 @@
 <body>
 
 <div class="min-h-screen bg-[#1C1B21] text-white">
-  <header class="relative">
-    <img alt="Background image of a classic car" class="absolute inset-0 w-full h-full object-cover opacity-50" src="{{asset('images/bgmain.png')}}" />
-    <div class="relative z-10 flex justify-around items-center p-6">
-     <div class="flex items-center space-x-2">
-      <span class="text-2xl font-bold">
-       Форвард
-      </span>
-      <img src="{{asset("images/logo.png")}}" alt="">
-      <span class="text-2xl font-bold text-purple-600">
-       Авто
-      </span>
-     </div>
-     <nav class="space-x-8">
-      <a href="{{route('home')}}" class="text-lg hover:text-purple-400 text-white">Главная</a>
-      <a href="{{route('catalog')}}" class=" text-lg hover:text-purple-400 text-white">Выбрать авто</a>
-
-      @if (Auth::check())
-      <a href="{{route('account')}}" class=" text-lg hover:text-purple-400 text-white">Личный кабинет</a>
-      @if (Auth::user()->isAdmin())
-      <div>
-        <a href="{{route('admin')}}" class="text-lg hover:text-purple-400 text-white">Админ панель</a>
-      </div>
-
-      @elseif (Auth::user()->isManager())
-      <div>
-        <a href="{{route('manager.index')}}" class=" text-lg hover:text-purple-400 text-white">Менеджер панель</a>
-      </div>
-      @endif
-      @else
-      <a href="{{route('register')}}" class="text-lg hover:text-purple-400 text-white">Личный кабинет</a>
-      @endif
-      </a>
-     </nav>
-    </div>
-    <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center">
-     <h1 class="text-6xl font-bold">
-      Автосалон лучших машин города Иркутска
-     </h1>
-     <h2 class="text-5xl font-bold mt-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-      Мы ждем вас!
-     </h2>
-    </div>
-   </header>
-
+    <header class="relative">
+        <img alt="Background image of a classic car" class="absolute inset-0 w-full h-full object-cover opacity-50" src="{{asset('images/bgmain.png')}}" />
+        <div class="relative z-10 flex justify-between items-center p-6">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl font-bold">
+              Форвард
+            </span>
+            <img src="{{asset("images/logo.png")}}" alt="">
+            <span class="text-2xl font-bold text-purple-600">
+              Авто
+            </span>
+          </div>
+          <div class="md:hidden">
+            <button id="menu-toggle" class="text-white focus:outline-none">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+          <nav id="menu" class="hidden md:flex md:space-x-8">
+            <a href="{{route('home')}}" class="text-lg hover:text-purple-400 text-white">Главная</a>
+            <a href="{{route('catalog')}}" class="text-lg hover:text-purple-400 text-white">Выбрать авто</a>
+    
+            @if (Auth::check())
+            <a href="{{route('account')}}" class="text-lg hover:text-purple-400 text-white">Личный кабинет</a>
+            @if (Auth::user()->isAdmin())
+            <div>
+              <a href="{{route('admin')}}" class="text-lg hover:text-purple-400 text-white">Админ панель</a>
+            </div>
+    
+            @elseif (Auth::user()->isManager())
+            <div>
+              <a href="{{route('manager.index')}}" class="text-lg hover:text-purple-400 text-white">Менеджер панель</a>
+            </div>
+            @endif
+            @else
+            <a href="{{route('register')}}" class="text-lg hover:text-purple-400 text-white">Личный кабинет</a>
+            @endif
+          </nav>
+        </div>
+        <div class="relative z-10 flex flex-col items-center justify-center h-screen text-center">
+          <h1 class="text-6xl font-bold">
+            Автосалон лучших машин города Иркутска
+          </h1>
+          <h2 class="text-5xl font-bold mt-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+            Мы ждем вас!
+          </h2>
+        </div>
+      </header>
 
    <div class="flex flex-col items-center bg-[#1C1B21] mb-10">
 
@@ -118,11 +123,11 @@
       <p class="text-xl md:text-2xl mt-2">Мы ждем вас!</p>
     </section>
   
-    <div class="flex items-center space-x-8 bg-[#1C1B21]">
-      <div class="relative">
-        <div id="map" class="w-[500px] h-[500px] mt-4 mb-12"></div>
+    <div class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8 bg-[#1C1B21] w-full">
+      <div class="relative w-full md:w-1/2">
+        <div id="map" class="w-full h-[500px] mt-4 mb-12"></div>
       </div>
-      <div>
+      <div class="w-full md:w-1/2">
        <h1 class="text-2xl font-bold mb-4">
         Найдем нужную вам машину в вашем городе
        </h1>
@@ -130,28 +135,13 @@
         Актуальные предложения:
        </h2>
        <ul class="list-disc list-inside space-y-1">
+        @foreach($additionalCars as $car)
         <li>
-         <a class="hover:underline" href="#">
-          BMW 320i 2020
-         </a>
+            <a class="hover:underline" href="{{ route('cars.show', $car->id) }}">
+                {{ $car->mark }} {{ $car->model }}
+            </a>
         </li>
-        <li>
-         Nissan GT-R 2018
-        </li>
-        <li>
-         Toyota Camry 2016
-        </li>
-        <li>
-         <a class=" hover:underline" href="#">
-          Dodge RAM 2020
-         </a>
-        </li>
-        <li>
-         Toyota Tundra
-        </li>
-        <li>
-         Toyota Yaris
-        </li>
+    @endforeach
        </ul>
       </div>
      </div>
@@ -163,7 +153,7 @@
       <h2 class="text-2xl font-semibold text-center mb-6">Популярные предложения</h2>
       <div class="flex flex-wrap justify-center gap-6">
           @foreach ($popularCars as $car)
-              <div class="bg-[#3C3C3C] rounded-lg overflow-hidden w-64">
+              <div class="bg-[#3C3C3C] rounded-lg overflow-hidden w-full md:w-64">
                   <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="w-full h-40 object-cover">
                   <div class="p-4">
                       <a href="{{ route('cars.show', $car->id) }}" class="text-lg font-semibold">{{ $car->mark }} {{ $car->model }}</a>
@@ -179,10 +169,10 @@
       </div>
   </section>
   <div class="w-full flex justify-center">
-    <div class="grid grid-cols-4 gap-4 p-4 mb-10 w-3/5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 mb-10 w-full md:w-3/5">
         @foreach ($randomCars as $index => $car)
             @if ($index == 0)
-                <div class="col-span-1 row-span-2">
+                <div class="col-span-2 row-span-2">
                     <img src="{{ asset('storage/' . $car->images->first()->image_path) }}" alt="Car Image" class="rounded-lg w-full h-full object-cover">
                 </div>
             @elseif ($index == 1)
@@ -211,5 +201,15 @@
 
    <x-footer/>
   </div>
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      var menu = document.getElementById('menu');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+      } else {
+        menu.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
