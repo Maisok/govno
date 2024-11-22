@@ -9,13 +9,16 @@ class catalogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Cars::query();
 
-        // Проверка, есть ли хотя бы один параметр для фильтрации
+        $query = Cars::where('availability', 1)->get();
+
+
+
+      
         $hasFilters = $request->hasAny(['search', 'year_from', 'year_to', 'mileage_from', 'mileage_to']);
 
         if ($hasFilters) {
-            // Применение фильтров только по тем параметрам, которые заполнены
+
             if ($request->filled('search')) {
                 $query->where(function ($q) use ($request) {
                     $q->where('mark', 'like', '%' . $request->search . '%')
@@ -40,8 +43,9 @@ class catalogController extends Controller
             }
         }
 
-        // Фильтрация по наличию картинок
-        $cars = $query->whereHas('images')->get();
+        //$cars = $query->whereHas('images')->get();
+
+        $cars=$query;
 
         return view('catalog', compact('cars'));
     }
